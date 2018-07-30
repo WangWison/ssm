@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- spring的入门配置 -->
+	<!-- <bean id="userDao" class="com.itheima.spring.demo1.UserDaoImpl"> <property 
+		name="userName" value="张三"></property> </bean> -->
+
+	<!-- spring中bean的生命周期 <bean name="CustomerDao" class="com.itheima.spring.demo2.CustomerDaoImpl" 
+		init-method="setup" destroy-method="destroyed"></bean> -->
+	<!-- spring中的bean的实例化方式 -->
+	<!-- 1.无参构造方法进行实例化 -->
+	<!-- <bean id="bean1" class="com.itheima.spring.demo3.Bean1" lazy-init="true"/> -->
+
+	<!-- 2.静态工厂方式进行bean的实例化 -->
+	<!-- <bean id="bean2" class="com.itheima.spring.demo3.Bean2Factory" factory-method="createBean2" 
+		lazy-init="true"></bean> -->
+
+	<!-- 实例工厂进行bean的实例化 -->
+	<!-- <bean id="beanFactory" class="com.itheima.spring.demo3.Bean3Factory"></bean> 
+		<bean id="bean3" class="com.itheima.spring.demo3.Bean3" factory-bean="beanFactory" 
+		factory-method="createBean3" lazy-init="true"/> -->
+
+	<!-- DI之setter注入 -->
+	<!-- <bean id="jdbcDataSource" class="com.itheima.spring.demo4.JdbcDataSource"> 
+		<property name="driver" value="mysql.jdbc.driver.MyDriver"></property> <property 
+		name="url" value="jdbc:mysql://localhost:3306/MyData"></property> <property 
+		name="username" value="root"></property> <property name="password" value="root"></property> 
+		</bean> -->
+
+	<!-- 构造方法方式实现属性注入 -->
+	<bean id="car" class="com.itheima.spring.demo4.Car">
+		<constructor-arg name="name" value="奔驰" />
+		<constructor-arg name="price" value="1000000" />
+	</bean>
+
+	<!-- setter方法实现属性注入 -->
+	<!-- <bean id="car2" class="com.itheima.spring.demo4.Car2"> <property name="name" 
+		value="别克"></property> <property name="price" value="150000"></property> 
+		</bean> -->
+
+	<!-- setter方式实现对象属性的注入 -->
+	<!-- <bean id="employee" class="com.itheima.spring.demo4.Employee"> ref设置其它类的id以及name 
+		value:设置普通类的值 <property name="name" value="Jack"></property> <property name="car2" 
+		ref="car2"></property> </bean> -->
+	<!-- 改为p名称空间的属性注入方式 -->
+	<!-- <bean id="car2" class="com.itheima.spring.demo4.Car2" p:name="劳斯莱斯" 
+		p:price="2000000"/> <bean id="employee" class="com.itheima.spring.demo4.Employee" 
+		p:name="wzj" p:car2-ref="car2"/> -->
+
+	<!-- SpEL实现属性注入 -->
+	<!-- <bean id="car2" class="com.itheima.spring.demo4.Car2"> <property name="name" 
+		value="#{'老爷车'}"></property> <property name="price" value="#{10000}"></property> 
+		</bean> -->
+	<bean id="carInfo" class="com.itheima.spring.demo4.CarInfo" />
+	<bean id="car2" class="com.itheima.spring.demo4.Car2">
+		<property name="name" value="#{carInfo.getName()}"></property>
+		<property name="price" value="#{carInfo.getCalculate()}"></property>
+	</bean>
+	<!-- <bean id="employee" class="com.itheima.spring.demo4.Employee"> <property 
+		name="name" value="#{'oj'}"></property> <property name="car2" value="#{car2}"></property> 
+		</bean> -->
+
+	<!-- spring集合类型的属性注入 -->
+
+	<bean id="collectionBean"
+		class="com.itheima.spring.demo5.CollectionBean">
+		<!-- 数组的注入 -->
+		<property name="arrs">
+			<list>
+				<value>1.C罗</value>
+				<value>2.梅西</value>
+				<value>3.卡卡</value>
+			</list>
+		</property>
+		<!-- list的注入 -->
+		<property name="list">
+			<list>
+				<value>上海大众</value>
+				<value>广汽丰田</value>
+				<value>上海通用</value>
+			</list>
+		</property>
+		<!-- set集合的注入 -->
+		<property name="set">
+			<set>
+				<value>aaa</value>
+				<value>bbb</value>
+				<value>ccc</value>
+			</set>
+		</property>
+		<!-- map的注入 -->
+		<property name="map">
+			<map>
+				<entry key="aaa" value="111"></entry>
+				<entry key="bbb" value="222"></entry>
+				<entry key="ccc" value="333"></entry>
+			</map>
+		</property>
+	</bean>
+
+
+
+</beans>
